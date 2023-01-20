@@ -8,6 +8,7 @@ public class LobbyManager : MonoBehaviourPunCallbacks
 {
     private string gameVersion = "1"; // 게임 버전
     private bool joinedRoom = false; // 룸 접속 여부
+    private bool isStarted = false; // 게임 시작 여부
 
     public Text connectionInfoText; // 네트워크 정보 표시
     public Button joinButton; // 룸 접속 버튼
@@ -16,6 +17,7 @@ public class LobbyManager : MonoBehaviourPunCallbacks
     void Start()
     {
         PhotonNetwork.GameVersion = gameVersion; // 접속에 필요한 정보 (게임 버전) 설정
+        PhotonNetwork.AutomaticallySyncScene = true; // 호스트가 씬을 로드하면, 클라이언트도 자동 싱크
         PhotonNetwork.ConnectUsingSettings(); // 설정한 정보로 마스터 서버 접속 시도
 
         joinButton.interactable = false; // 룸 접속 버튼 비활성화
@@ -66,12 +68,17 @@ public class LobbyManager : MonoBehaviourPunCallbacks
     {
         joinedRoom = true;
         connectionInfoText.text = "방 참가 성공 (" + PhotonNetwork.PlayerList.Length + " / 4)"; // 접속 상태 표시
-        // if (PhotonNetwork.PlayerList.Length == 4) PhotonNetwork.LoadLevel("Main"); // 4명이 접속한 경우 모든 룸 참가자가 Main 씬을 로드 (게임 시작)
     }
 
     // 룸에 참가 완료된 경우 접속 인원 출력
     private void Update()
     {
         if (joinedRoom) connectionInfoText.text = "방 참가 성공 (" + PhotonNetwork.PlayerList.Length + " / 4)"; // 실시간 접속 인원 출력
+
+        if (PhotonNetwork.IsMasterClient && !isStarted && PhotonNetwork.PlayerList.Length == 4)
+        {
+            isStarted = true;
+            PhotonNetwork.LoadLevel("Main"); // 호스트이고 4명이 룸에 접속한 경우 모든 룸 참가자가 Main 씬을 로드 (게임 시작)
+        }
     }
 }
