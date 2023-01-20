@@ -37,7 +37,7 @@ public class GameManager : MonoBehaviourPun
     // 게임 시작과 동시에 플레이어가 될 게임 오브젝트를 생성
     private void Start()
     {
-        Vector2 randomSpawnPos = Random.insideUnitCircle * 2f; // 생성할 랜덤 위치 지정
+        Vector2 randomSpawnPos = Random.insideUnitCircle * 10f; // 생성할 랜덤 위치 지정
 
         /*  네트워크의 모든 클라이언트들에서 플레이어 캐릭터 생성 실행
             해당 게임 오브젝트의 주도권은, 생성 메서드를 직접 실행한 클라이언트에게 있음 */
