@@ -78,6 +78,8 @@ public class LobbyManager : MonoBehaviourPunCallbacks
         if (PhotonNetwork.IsMasterClient && !isStarted && PhotonNetwork.PlayerList.Length == 4)
         {
             isStarted = true;
+            PhotonNetwork.CurrentRoom.IsOpen = false; // 게임하는 동안 아무도 참여 불가
+            PhotonNetwork.CurrentRoom.IsVisible = false; // 룸 목록에서 숨김
             PhotonNetwork.LoadLevel("Main"); // 호스트이고 4명이 룸에 접속한 경우 모든 룸 참가자가 Main 씬을 로드 (게임 시작)
         }
     }
