@@ -3,7 +3,7 @@ using Photon.Pun;
 using UnityEngine;
 
 // 생명체로서 동작할 게임 오브젝트들을 위한 뼈대
-public class LivingEntity : MonoBehaviourPun
+public class LivingEntity : MonoBehaviourPun, IDamageable
 {
     public float startingHealth = 100f; // 시작 체력
     public float health { get; protected set; } // 현재 체력 프로퍼티
